@@ -1,6 +1,8 @@
 import React, { createContext, useContext, useState, useEffect, useCallback } from "react";
 import axios from "axios";
 import { jwtDecode } from "jwt-decode";
+import { useNavigate } from "react-router-dom";
+
 
 // Create context
 export const AuthContext = createContext(null);
@@ -162,6 +164,8 @@ export const AuthProvider = ({ children }) => {
   }, [setAuthData, clearAuthData, debugLog]);
 
   const logout = useCallback(async () => {
+    const navigate = useNavigate();
+
     debugLog("Starting logout process");
     try {
       // Call backend logout (don't wait for it to complete)
@@ -177,7 +181,8 @@ export const AuthProvider = ({ children }) => {
       clearAuthData();
       
       // Redirect to login
-      window.location.href = "/login";
+      navigate("/login");
+
     }
   }, [clearAuthData, debugLog]);
 
