@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import SimpleLogoutHeader from "../SimpleLogoutHeader";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createSolvent } from "../../../api/solvent.js";
@@ -186,12 +187,14 @@ const SolventForm = () => {
   }, [numOperators]);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 py-6 px-4">
-      <FormHeader
-        title="Operator Performance Form"
-        subtitle="Solvent Section"
-        className="py-3"
-      />
+    <>
+      <SimpleLogoutHeader />
+      <div className="min-h-screen bg-gradient-to-br from-orange-50 via-amber-50 to-yellow-50 py-6 px-4">
+        <FormHeader
+          title="Operator Performance Form"
+          subtitle="Solvent Section"
+          className="py-3"
+        />
       <div className="max-w-6xl mx-auto px-4">
         <div className="mb-4 bg-white">
           <label className=" text-sm font-medium bg-white text-gray-700">
@@ -255,6 +258,7 @@ const SolventForm = () => {
         </div>
       </div>
     </div>
+    </>
   );
 };
 

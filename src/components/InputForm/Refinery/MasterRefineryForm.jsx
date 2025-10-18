@@ -1,4 +1,5 @@
 import React, { useState,useCallback } from "react";
+import SimpleLogoutHeader from "../SimpleLogoutHeader";
 import { useNavigate } from "react-router-dom";
 import DeGum_Bleach_Form from "./DeGum_Bleach_Form";
 import DeWaxing_Form from "./DeWaxing_Form";
@@ -74,7 +75,9 @@ export default function MasterRefineryForm() {
 
 
   return (
-    <div className="max-w-6xl mx-auto p-4 mb-10 mt-10">
+    <>
+      <SimpleLogoutHeader />
+      <div className="max-w-6xl mx-auto p-4 mb-10 mt-10">
 
       {/* DeGum & Bleach Form */}
       <DeGum_Bleach_Form onDataChange={handleDegumBleachChange} />
@@ -117,6 +120,7 @@ export default function MasterRefineryForm() {
           </pre>
         </div>
       )}
-    </div>
+      </div>
+    </>
   );
 }

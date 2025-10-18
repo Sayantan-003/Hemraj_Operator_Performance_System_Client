@@ -1,4 +1,5 @@
 import React, { useState, useRef } from "react";
+import SimpleLogoutHeader from "../SimpleLogoutHeader";
 import { Navigate, useNavigate } from "react-router-dom";
 import FormHeader from "./FormHeader";
 import OperatorDetails from "./OperatorDetails";
@@ -69,11 +70,13 @@ const NewPrepForm = () => {
   };
 
   return (
-    <div
-      className="p-6 min-h-screen bg-cover bg-center"
-      style={{ backgroundImage: "url('/your-background-image.jpg')" }}
-    >
-      <div className="bg-[#EEE5D5] p-6 rounded-lg shadow-lg">
+    <>
+      <SimpleLogoutHeader />
+      <div
+        className="p-6 min-h-screen bg-cover bg-center"
+        style={{ backgroundImage: "url('/your-background-image.jpg')" }}
+      >
+        <div className="bg-[#EEE5D5] p-6 rounded-lg shadow-lg">
         <FormHeader
           title="Operator Performance Form"
           subtitle="(Prep Section)"
@@ -138,8 +141,9 @@ const NewPrepForm = () => {
             Submit
           </button>
         </div>
+        </div>
       </div>
-    </div>
+    </>
   );
 };
 
