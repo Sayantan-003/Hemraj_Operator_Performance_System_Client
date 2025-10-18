@@ -163,30 +163,45 @@ export const AuthProvider = ({ children }) => {
     }
   }, [setAuthData, clearAuthData, debugLog]);
 
-  const logout = useCallback(async () => {
-    const navigate = useNavigate();
+  // const logout = useCallback(async () => {
+  //   const navigate = useNavigate();
 
-    debugLog("Starting logout process");
-    try {
-      // Call backend logout (don't wait for it to complete)
-      await axios.post(`${API_BASE}/auth/logout`, {}, { 
-        withCredentials: true,
-        timeout: 5000 
-      });
-      debugLog("Logout API call successful");
-    } catch (error) {
-      debugLog("Logout API call failed", error.message);
-    } finally {
-      // Always clear local auth data
-      clearAuthData();
+  //   debugLog("Starting logout process");
+  //   try {
+  //     // Call backend logout (don't wait for it to complete)
+  //     await axios.post(`${API_BASE}/auth/logout`, {}, { 
+  //       withCredentials: true,
+  //       timeout: 5000 
+  //     });
+  //     debugLog("Logout API call successful");
+  //   } catch (error) {
+  //     debugLog("Logout API call failed", error.message);
+  //   } finally {
+  //     // Always clear local auth data
+  //     clearAuthData();
       
-      // Redirect to login
-      navigate("/login");
+  //     // Redirect to login
+  //     navigate("/login");
 
-    }
-  }, [clearAuthData, debugLog]);
+  //   }
+  // }, [clearAuthData, debugLog]);
 
   // ===== FIXED: Initialize authentication state with proper dependencies =====
+  
+  const logout = useCallback(async () => {
+  debugLog("Starting logout process");
+  try {
+    await axios.post(`${API_BASE}/auth/logout`, {}, { withCredentials: true, timeout: 5000 });
+    debugLog("Logout API call successful");
+  } catch (error) {
+    debugLog("Logout API call failed", error.message);
+  } finally {
+    clearAuthData();
+  }
+}, [clearAuthData, debugLog]);
+
+  
+  
   useEffect(() => {
     let isMounted = true; // Prevent state updates if component unmounts
     
