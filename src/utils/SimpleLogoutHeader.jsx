@@ -1,6 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 import { useAuth } from "../context/AuthContext.jsx";
-import Logo from "../assets/images/Hemraj_logo.png"
+import Logo from "../components/Dashboard/navbar/Logo.jsx"
 
 // Helper to get initials from username
 function getInitials(name) {
