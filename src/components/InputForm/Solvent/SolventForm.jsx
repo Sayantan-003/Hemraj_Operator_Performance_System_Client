@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import SimpleLogoutHeader from "../SimpleLogoutHeader";
+import SimpleLogoutHeader from "../../../utils/SimpleLogoutHeader.jsx";
 import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import { createSolvent } from "../../../api/solvent.js";

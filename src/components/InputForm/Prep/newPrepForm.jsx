@@ -1,5 +1,5 @@
 import React, { useState, useRef } from "react";
-import SimpleLogoutHeader from "../SimpleLogoutHeader";
+import SimpleLogoutHeader from "../../../utils/SimpleLogoutHeader";
 import { Navigate, useNavigate } from "react-router-dom";
 import FormHeader from "./FormHeader";
 import OperatorDetails from "./OperatorDetails";

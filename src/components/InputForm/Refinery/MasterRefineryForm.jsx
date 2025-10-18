@@ -1,5 +1,5 @@
 import React, { useState,useCallback } from "react";
-import SimpleLogoutHeader from "../SimpleLogoutHeader";
+import SimpleLogoutHeader from "../../../utils/SimpleLogoutHeader";
 import { useNavigate } from "react-router-dom";
 import DeGum_Bleach_Form from "./DeGum_Bleach_Form";
 import DeWaxing_Form from "./DeWaxing_Form";
