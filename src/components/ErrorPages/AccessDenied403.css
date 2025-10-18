@@ -1,0 +1,78 @@
+:root {
+  --bg-orange: #ffb300; /* tweak to taste */
+  --max-width: 1100px;
+}
+
+.forbidden-page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg-orange);
+  font-family: Inter, "Segoe UI", Roboto, sans-serif;
+  color: #fff;
+  box-sizing: border-box;
+}
+
+.forbidden-inner {
+  text-align: center;
+  max-width: var(--max-width);
+  width: 100%;
+}
+
+/* Large 403 */
+.code {
+  font-size: clamp(48px, 12vw, 140px);
+  margin: 0;
+  font-weight: 700;
+  letter-spacing: -2px;
+  color: #fff;
+  line-height: 0.9;
+}
+
+/* subtitle */
+.subtitle {
+  margin-top: 6px;
+  margin-bottom: 36px;
+  font-size: clamp(14px, 2.2vw, 20px);
+  opacity: 0.95;
+}
+
+/* figure area */
+.figure-wrap {
+  position: relative;
+  display: inline-block;
+  max-width: 760px;
+  width: 80%;
+}
+
+/* the user-supplied image gets styled so it flattens against the background */
+.figure-image {
+  width: 100%;
+  height: auto;
+  display: block;
+  object-fit: contain;
+
+  /* Make image blend smoothly with the orange background */
+  filter: contrast(180%) brightness(110%) saturate(0%); /* convert to silhouette-like */
+  mix-blend-mode: multiply; /* helps "remove" photographic artifacts and keep shapes */
+  opacity: 0.98;
+
+  /* subtle crisp outline */
+  -webkit-filter: drop-shadow(0 0 0 rgba(0,0,0,0));
+  filter: drop-shadow(0 8px 6px rgba(0,0,0,0.12));
+}
+
+/* simple ground shadow similar to the example */
+.ground-shadow {
+  position: absolute;
+  left: 50%;
+  bottom: 6%;
+  transform: translateX(-50%);
+  width: 40%;
+  height: 14px;
+  background: rgba(0,0,0,0.18);
+  filter: blur(8px);
+  border-radius: 50%;
+  pointer-events: none;
+}

@@ -1,0 +1,191 @@
+/* Wave Animation Styles */
+@keyframes waveFlow1 {
+  0% {
+    d: path("M0,0 C30,20 70,10 100,30 L100,0 Z");
+    opacity: 0;
+  }
+  10% {
+    opacity: 1;
+  }
+  25% {
+    d: path("M0,0 C25,30 75,5 100,25 L100,0 Z");
+  }
+  50% {
+    d: path("M0,0 C35,15 65,25 100,35 L100,0 Z");
+  }
+  75% {
+    d: path("M0,0 C40,25 60,15 100,30 L100,0 Z");
+  }
+  90% {
+    opacity: 1;
+  }
+  100% {
+    d: path("M0,0 C30,20 70,10 100,30 L100,0 Z");
+    opacity: 0.8;
+  }
+}
+
+@keyframes waveFlow2 {
+  0% {
+    d: path("M0,100 C30,80 70,90 100,70 L100,100 Z");
+    opacity: 0;
+  }
+  15% {
+    opacity: 1;
+  }
+  30% {
+    d: path("M0,100 C35,75 65,95 100,65 L100,100 Z");
+  }
+  55% {
+    d: path("M0,100 C25,85 75,85 100,75 L100,100 Z");
+  }
+  80% {
+    d: path("M0,100 C40,90 60,80 100,70 L100,100 Z");
+  }
+  95% {
+    opacity: 1;
+  }
+  100% {
+    d: path("M0,100 C30,80 70,90 100,70 L100,100 Z");
+    opacity: 0.8;
+  }
+}
+
+@keyframes waveFlowComplete {
+  0% {
+    opacity: 0.8;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+/* Floating elements enhanced animations */
+@keyframes floatEnhanced {
+  0% {
+    transform: translateY(0px) scale(0.8);
+    opacity: 0.3;
+  }
+  25% {
+    transform: translateY(-10px) scale(1);
+    opacity: 0.6;
+  }
+  50% {
+    transform: translateY(-5px) scale(1.1);
+    opacity: 0.8;
+  }
+  75% {
+    transform: translateY(-15px) scale(0.9);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(0px) scale(0.8);
+    opacity: 0.3;
+  }
+}
+
+@keyframes circleExpand {
+  0% {
+    transform: scale(0.5);
+    opacity: 0;
+  }
+  50% {
+    transform: scale(1.2);
+    opacity: 0.4;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 0.2;
+  }
+}
+
+@keyframes gentlePulse {
+  0%, 100% {
+    opacity: 0.2;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.4;
+    transform: scale(1.05);
+  }
+}
+
+/* Welcome text entrance animation */
+@keyframes welcomeEntrance {
+  0% {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  50% {
+    opacity: 0.7;
+    transform: translateY(10px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Form entrance animation */
+@keyframes formEntrance {
+  0% {
+    opacity: 0;
+    transform: translateX(-50px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+/* Container entrance */
+@keyframes containerEntrance {
+  0% {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Classes to apply animations */
+.wave-path-1 {
+  animation: waveFlow1 3s ease-in-out forwards;
+}
+
+.wave-path-2 {
+  animation: waveFlow2 3s ease-in-out 0.5s forwards;
+}
+
+.wave-complete {
+  animation: waveFlowComplete 0.5s ease-in-out 3.5s forwards;
+}
+
+.float-enhanced {
+  animation: floatEnhanced 6s ease-in-out infinite;
+}
+
+.circle-expand {
+  animation: circleExpand 2s ease-out forwards;
+}
+
+.gentle-pulse {
+  animation: gentlePulse 4s ease-in-out infinite;
+}
+
+.welcome-entrance {
+  animation: welcomeEntrance 1s ease-out 1s forwards;
+  opacity: 0;
+}
+
+.form-entrance {
+  animation: formEntrance 1s ease-out 0.5s forwards;
+  opacity: 0;
+}
+
+.container-entrance {
+  animation: containerEntrance 0.8s ease-out forwards;
+  opacity: 0;
+}
