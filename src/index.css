@@ -1,2 +1,13 @@
 @import "tailwindcss";
 @import 'react-datepicker/dist/react-datepicker.css';
+
+
+/* 👇 Add this BELOW Tailwind imports */
+.scrollbar-thin::-webkit-scrollbar {
+  height: 6px;
+}
+
+.scrollbar-thin::-webkit-scrollbar-thumb {
+  background-color: #d1d5db; /* gray-300 */
+  border-radius: 9999px;
+}

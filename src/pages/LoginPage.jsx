@@ -24,7 +24,7 @@ export default function LoginPage() {
   const redirectBasedOnRole = (role) => {
     switch (role) {
       case "input_user_1":
-      case "input_user_2": 
+      case "input_user_2":
       case "input_user_3":
       case "master_input_user":
         // Input users go to their specific forms
@@ -48,7 +48,7 @@ export default function LoginPage() {
 
   const handleLogin = async (e) => {
     e?.preventDefault();
-    
+
     if (!username || !password) {
       setError("Please enter both username and password");
       return;
@@ -59,7 +59,7 @@ export default function LoginPage() {
 
     try {
       const result = await login(username, password);
-      
+
       if (result.success) {
         // Handle "Remember Me" functionality
         if (rememberMe) {
@@ -69,7 +69,7 @@ export default function LoginPage() {
           localStorage.removeItem("rememberMe");
           localStorage.removeItem("lastUsername");
         }
-        
+
         redirectBasedOnRole(result.user.role);
       } else {
         setError(result.error || "Login failed");
@@ -85,7 +85,7 @@ export default function LoginPage() {
   useEffect(() => {
     const remembered = localStorage.getItem("rememberMe");
     const lastUsername = localStorage.getItem("lastUsername");
-    
+
     if (remembered === "true" && lastUsername) {
       setUsername(lastUsername);
       setRememberMe(true);
@@ -216,7 +216,8 @@ export default function LoginPage() {
                       onKeyPress={handleKeyPress}
                       placeholder="Password"
                       disabled={isLogging}
-                      className="w-full pl-16 pr-16 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:bg-white transition-all duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed"
+                      className="w-full pl-16 pr-16 py-4 bg-gray-50 border-2 border-gray-100 rounded-2xl text-gray-700 placeholder-gray-400 focus:outline-none focus:border-blue-400 focus:bg-white transition-all duration-300 text-lg disabled:opacity-50 disabled:cursor-not-allowed overflow-x-auto"
+                      style={{ whiteSpace: "nowrap" }}
                       required
                     />
                     <button
