@@ -38,6 +38,7 @@ const SolventForm = () => {
   });
   const [totalCrudeOilProduction, setTotalCrudeOilProduction] = useState("");
   const [totalDORBProduction, setTotalDORBProduction] = useState("");
+  const [totalBagsFeed, setTotalBagsFeed] = useState("");
 
   const handleOperatorChange = (index, value) => {
     const updated = [...operatorDetails];
@@ -138,6 +139,7 @@ const SolventForm = () => {
         })),
         totalCrudeOilProduction: Number(totalCrudeOilProduction ?? 0),
         totalDORBProduction: Number(totalDORBProduction ?? 0),
+        totalFeeding: Number(totalBagsFeed ?? 0),
         ampereLoad: Object.entries(ampereLoad).map(([shiftId, values]) => ({
           shiftId,
           value: Number(values.value ?? 0),
@@ -168,6 +170,7 @@ const SolventForm = () => {
       setBatches({ shiftA: {}, shiftB: {}, shiftC: {} });
       setTotalDORBProduction("");
       setTotalCrudeOilProduction("");
+      setTotalBagsFeed("");
       setAmpereLoad({ shiftA: {}, shiftB: {}, shiftC: {} });
     } catch (error) {
       console.error("Error submitting form:", error);
@@ -195,69 +198,71 @@ const SolventForm = () => {
           subtitle="Solvent Section"
           className="py-3"
         />
-      <div className="max-w-6xl mx-auto px-4">
-        <div className="mb-4 bg-white">
-          <label className=" text-sm font-medium bg-white text-gray-700">
-            Date
-          </label>
-          <input
-            type="date"
-            value={date}
-            onChange={(e) => setDate(e.target.value)}
-            className="w-full border rounded px-3 py-2"
+        <div className="max-w-6xl mx-auto px-4">
+          <div className="mb-4 bg-white">
+            <label className=" text-sm font-medium bg-white text-gray-700">
+              Date
+            </label>
+            <input
+              type="date"
+              value={date}
+              onChange={(e) => setDate(e.target.value)}
+              className="w-full border rounded px-3 py-2"
+            />
+          </div>
+          <OperatorSection
+            operatorData={operatorDetails}
+            numOperators={numOperators}
+            onCountChange={(e) => setNumOperators(+e.target.value)}
+            onChange={handleOperatorChange}
+            operatorNames={operatorNames}
           />
-        </div>
-        <OperatorSection
-          operatorData={operatorDetails}
-          numOperators={numOperators}
-          onCountChange={(e) => setNumOperators(+e.target.value)}
-          onChange={handleOperatorChange}
-          operatorNames={operatorNames}
-        />
-        <LabReportSection labReport={labReport} onChange={handleLabChange} />
-        <SteamSection steamReadings={steam} onChange={handleSteamChange} />
-        {/* <ProductionSection
+          <LabReportSection labReport={labReport} onChange={handleLabChange} />
+          <SteamSection steamReadings={steam} onChange={handleSteamChange} />
+          {/* <ProductionSection
           batches={batches}
           totalProductionp = {totalProduction}
           onChange={handleBatchesChange}
         /> */}
-        <ProductionSection
-          batches={batches}
-          productionCrude={totalCrudeOilProduction }
-          productionDORB={ totalDORBProduction }
-          onCrudeChange={setTotalCrudeOilProduction}
-          onDORBChange={setTotalDORBProduction}
-          onBatchChange={handleBatchesChange}
-        />
+          <ProductionSection
+            batches={batches}
+            productionCrude={totalCrudeOilProduction}
+            productionDORB={totalDORBProduction}
+            bagsFeed={totalBagsFeed} 
+            onCrudeChange={setTotalCrudeOilProduction}
+            onDORBChange={setTotalDORBProduction}
+            onBatchChange={handleBatchesChange}
+            onBagsFeedChange={setTotalBagsFeed}
+          />
 
-        <AmpereLoadSection
-          ampereLoad={ampereLoad}
-          onChange={handleAmpereLoadChange}
-        />
+          <AmpereLoadSection
+            ampereLoad={ampereLoad}
+            onChange={handleAmpereLoadChange}
+          />
 
-        <div className="text-center space-y-4">
-          {submitStatus.error && (
-            <div className="text-red-600 bg-white p-3 rounded">
-              {submitStatus.error}
-            </div>
-          )}
-          {submitStatus.success && (
-            <div className="text-green-600 bg-green-50 p-3 rounded">
-              Data saved successfully!
-            </div>
-          )}
-          <button
-            onClick={handleSubmit}
-            disabled={submitStatus.loading}
-            className={`bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 \${
+          <div className="text-center space-y-4">
+            {submitStatus.error && (
+              <div className="text-red-600 bg-white p-3 rounded">
+                {submitStatus.error}
+              </div>
+            )}
+            {submitStatus.success && (
+              <div className="text-green-600 bg-green-50 p-3 rounded">
+                Data saved successfully!
+              </div>
+            )}
+            <button
+              onClick={handleSubmit}
+              disabled={submitStatus.loading}
+              className={`bg-orange-500 text-white px-6 py-2 rounded hover:bg-orange-600 \${
             submitStatus.loading ? 'opacity-50 cursor-not-allowed' : ''
           }`}
-          >
-            {submitStatus.loading ? "Saving..." : "Submit"}
-          </button>
+            >
+              {submitStatus.loading ? "Saving..." : "Submit"}
+            </button>
+          </div>
         </div>
       </div>
-    </div>
     </>
   );
 };

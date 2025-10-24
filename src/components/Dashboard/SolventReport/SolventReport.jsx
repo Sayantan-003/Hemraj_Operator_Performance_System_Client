@@ -85,7 +85,6 @@
 //     return { operators, rows };
 //   };
 
-
 //   useEffect(() => {
 //     const fetchDashboardData = async () => {
 //       if (!selectedDate) return;
@@ -623,9 +622,6 @@
 // };
 
 // export default SolventReport;
-
-
-
 
 /****************************************New Solvent Report****************** */
 // //SolventReport Dashboard
@@ -1305,10 +1301,6 @@
 // };
 
 // export default SolventReport;
-
-
-
-
 
 /*************************************** */
 // //SolventReport Dashboard
@@ -1996,9 +1988,6 @@
 
 // export default SolventReport;
 
-
-
-
 /********************************************************Solvent REPORT NEW *************** */
 //SolventReport Dashboard
 import React, { useEffect, useState, useCallback } from "react";
@@ -2031,9 +2020,11 @@ const SolventReport = () => {
       steamConsumed: [0, 0, 0],
       electricConsumed: [0, 0, 0],
       CrudeOilProduction: [0, 0, 0],
-      DORBProduction: [0, 0, 0],
       totalWorkingHours: [0, 0, 0],
       daysPresent: [0, 0, 0],
+      DORBProduction: [0, 0, 0],
+      expectedDORBProduction: [0, 0, 0],
+      avgWeightDORBBags: [0, 0, 0],
     },
   });
 
@@ -2060,6 +2051,8 @@ const SolventReport = () => {
           electricConsumed: [0],
           CrudeOilProduction: [0],
           DORBProduction: [0],
+          expectedDORBProduction: [0],
+          avgWeightDORBBags: [0],
           totalWorkingHours: [0],
           daysPresent: [1],
         },
@@ -2081,6 +2074,12 @@ const SolventReport = () => {
       ),
       DORBProduction: operatorSummaries.map(
         (op) => op.totalDORBProduction || 0
+      ),
+      expectedDORBProduction: operatorSummaries.map(
+        (op) => op.expectedDORBProduction || 0
+      ),
+      avgWeightDORBBags: operatorSummaries.map(
+        (op) => op.avgWeightDORBBags || 0
       ),
       totalWorkingHours: operatorSummaries.map((op) => op.totalHours || 0),
       daysPresent: operatorSummaries.map(() => 1), // Single day = 1
@@ -2132,10 +2131,19 @@ const SolventReport = () => {
             );
 
             setParameters([
-              { name: "Steam Consumed", value: `${totals.steam.toFixed(2)} Ton` },
+              {
+                name: "Steam Consumed",
+                value: `${totals.steam.toFixed(2)} Ton`,
+              },
               { name: "Electric Consumed", value: `${totals.electric} units` },
-              { name: "Crude Oil Production", value: `${totals.crudeProduction.toFixed(2)} MT` },
-              { name: "DORB Production", value: `${totals.dorbProduction} Bags` },
+              {
+                name: "Crude Oil Production",
+                value: `${totals.crudeProduction.toFixed(2)} MT`,
+              },
+              {
+                name: "DORB Production",
+                value: `${totals.dorbProduction} Bags`,
+              },
             ]);
           } else {
             // Reset to defaults for no data
@@ -2149,6 +2157,8 @@ const SolventReport = () => {
                 electricConsumed: [0],
                 CrudeOilProduction: [0],
                 DORBProduction: [0],
+                expectedDORBProduction: [0],
+                avgWeightDORBBags: [0],
                 totalWorkingHours: [0],
                 daysPresent: [0],
               },
@@ -2206,16 +2216,25 @@ const SolventReport = () => {
 
               // FIX: API returns different field names for date range
               const normalizedRows = { ...response.detailedReportTable.rows };
-              
+
               // Map 'crudeProduction' to 'CrudeOilProduction' if needed
-              if (normalizedRows.crudeProduction && !normalizedRows.CrudeOilProduction) {
-                normalizedRows.CrudeOilProduction = normalizedRows.crudeProduction;
+              if (
+                normalizedRows.crudeProduction &&
+                !normalizedRows.CrudeOilProduction
+              ) {
+                normalizedRows.CrudeOilProduction =
+                  normalizedRows.crudeProduction;
                 delete normalizedRows.crudeProduction;
-                console.log("Normalized 'crudeProduction' to 'CrudeOilProduction'");
+                console.log(
+                  "Normalized 'crudeProduction' to 'CrudeOilProduction'"
+                );
               }
-              
+
               // Map 'dorbProduction' to 'DORBProduction' if needed
-              if (normalizedRows.dorbProduction && !normalizedRows.DORBProduction) {
+              if (
+                normalizedRows.dorbProduction &&
+                !normalizedRows.DORBProduction
+              ) {
                 normalizedRows.DORBProduction = normalizedRows.dorbProduction;
                 delete normalizedRows.dorbProduction;
                 console.log("Normalized 'dorbProduction' to 'DORBProduction'");
@@ -2226,7 +2245,9 @@ const SolventReport = () => {
                 rows: normalizedRows,
               });
             } else {
-              console.warn("No detailedReportTable in response, using fallback");
+              console.warn(
+                "No detailedReportTable in response, using fallback"
+              );
               // Fallback if no detailed report
               setDetailedReport({
                 operators: ["No Data Available"],
@@ -2238,6 +2259,8 @@ const SolventReport = () => {
                   electricConsumed: [0],
                   CrudeOilProduction: [0],
                   DORBProduction: [0],
+                  expectedDORBProduction: [0], // NEW
+                  avgWeightDORBBags: [0],
                   totalWorkingHours: [0],
                   daysPresent: [0],
                 },
@@ -2263,6 +2286,8 @@ const SolventReport = () => {
                 electricConsumed: [0],
                 CrudeOilProduction: [0],
                 DORBProduction: [0],
+                expectedDORBProduction: [0],
+                avgWeightDORBBags: [0],
                 totalWorkingHours: [0],
                 daysPresent: [0],
               },
@@ -2286,6 +2311,8 @@ const SolventReport = () => {
             electricConsumed: [0],
             CrudeOilProduction: [0],
             DORBProduction: [0],
+            expectedDORBProduction: [0, 0, 0],
+            avgWeightDORBBags: [0, 0, 0],
             totalWorkingHours: [0],
             daysPresent: [0],
           },
@@ -2320,6 +2347,8 @@ const SolventReport = () => {
     electricConsumed: "Electric Consumed (Unit)",
     CrudeOilProduction: "Crude Oil Production (MT)",
     DORBProduction: "DORB Production (Bags)",
+    expectedDORBProduction: "Expected DORB Production (KG)", 
+    avgWeightDORBBags: "Avg. Weight of DORB Bags (KG)", 
     totalWorkingHours: "Total Working Hours",
     daysPresent: "No. of Days Present",
   };
@@ -2331,7 +2360,12 @@ const SolventReport = () => {
     console.log("getSteamRanking - operators:", operators);
     console.log("getSteamRanking - rows:", rows);
 
-    if (!operators || !rows || !rows.steamConsumed || !rows.CrudeOilProduction) {
+    if (
+      !operators ||
+      !rows ||
+      !rows.steamConsumed ||
+      !rows.CrudeOilProduction
+    ) {
       console.warn("getSteamRanking - Missing data, returning empty array");
       return [];
     }
@@ -2380,7 +2414,9 @@ const SolventReport = () => {
   const getProductionRanking = () => {
     const { operators, rows } = detailedReport;
     if (!operators || !rows || !rows.CrudeOilProduction) {
-      console.warn("getProductionRanking - Missing data, returning empty array");
+      console.warn(
+        "getProductionRanking - Missing data, returning empty array"
+      );
       return [];
     }
     return operators
