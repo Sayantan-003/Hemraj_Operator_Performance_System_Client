@@ -15,7 +15,7 @@ const PrepReport = () => {
   const [loading, setLoading] = useState(false);
   const [charts, setCharts] = useState([]);
 
-  // ✅ Default table with operators and zero values
+  //Default table with operators and zero values
   const [detailedReport, setDetailedReport] = useState({
     operators: ["Operator A", "Operator B", "Operator C"],
     rows: {
@@ -27,7 +27,7 @@ const PrepReport = () => {
     },
   });
 
-  // ✅ Helper to format date as YYYY-MM-DD
+  // Helper to format date as YYYY-MM-DD
   const formatDate = (date) => {
     const d = new Date(date);
     if (isNaN(d.getTime())) return null;
@@ -37,7 +37,7 @@ const PrepReport = () => {
     return `${year}-${month}-${day}`;
   };
 
-  // ✅ Fetch Dashboard Data
+  // Fetch Dashboard Data
   useEffect(() => {
     const fetchDashboardData = async () => {
       if (!selectedDate) return;
@@ -71,7 +71,7 @@ const PrepReport = () => {
 
         if (response?.charts) setCharts(response.charts);
       } catch (error) {
-        console.error("❌ Error fetching dashboard:", error);
+        console.error("Error fetching dashboard:", error);
       } finally {
         setLoading(false);
       }
@@ -80,13 +80,13 @@ const PrepReport = () => {
     fetchDashboardData();
   }, [selectedDate]);
 
-  // ✅ Manual refresh (single date = today)
+  // Manual refresh (single date = today)
   const handleRefresh = () => {
     const today = new Date();
     setSelectedDate({ startDate: today, endDate: today });
   };
 
-  // ✅ Row labels
+  // Row labels
   const rowLabels = {
     steamConsumed: "Steam Consumed (Ton)",
     electricConsumed: "Electric Consumed (Unit)",
@@ -95,7 +95,7 @@ const PrepReport = () => {
     daysPresent: "No. of Days Present",
   };
 
-  // ✅ Ranking Calculations
+  //Ranking Calculations
   const getSteamRanking = () => {
     const { operators, rows } = detailedReport;
     return operators
@@ -180,7 +180,7 @@ const PrepReport = () => {
 
       {/* Body */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        {/* ✅ Date Selector */}
+        {/* Date Selector */}
         <DateSelector
           onChange={(date) => {
             if (date && date.value && date.value.start && date.value.end) {
@@ -200,7 +200,7 @@ const PrepReport = () => {
           }}
         />
 
-        {/* ✅ Operator Rankings Section */}
+        {/*  Operator Rankings Section */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-0 mb-6 my-10">
           <div className="bg-gradient-to-r from-indigo-400 to-purple-400 px-6 py-3 rounded-t-xl">
             <h2 className="text-xl font-semibold text-white">Operator Rankings</h2>
@@ -310,7 +310,7 @@ const PrepReport = () => {
           </div>
         </div>
 
-        {/* ✅ Detailed Report Section (always visible, default zeros) */}
+        {/*  Detailed Report Section (always visible, default zeros) */}
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-0 mb-6 my-8">
           <div className="bg-gradient-to-r from-pink-400 to-rose-400 px-6 py-3 rounded-t-xl">
             <h2 className="text-xl font-semibold text-white">Detailed Report</h2>
@@ -336,7 +336,7 @@ const PrepReport = () => {
                   </th>
                 </tr>
               </thead>
-              <tbody>
+              {/* <tbody>
                 {Object.entries(detailedReport.rows).map(([key, values], rowIdx) => {
                   const safeValues = detailedReport.operators.map(
                     (_, i) => values[i] ?? 0
@@ -367,7 +367,50 @@ const PrepReport = () => {
                     </tr>
                   );
                 })}
-              </tbody>
+              </tbody> */}
+<tbody>
+  {Object.entries(detailedReport.rows).map(([key, values], rowIdx) => {
+    const safeValues = detailedReport.operators.map((_, i) => values[i] ?? 0);
+
+    let total;
+    if (["totalWorkingHours", "daysPresent"].includes(key)) {
+      // ✅ Exclude zeros and NaN
+      const validValues = safeValues.filter((v) => !isNaN(v) && v > 0);
+      total =
+        validValues.length > 0
+          ? validValues.reduce((sum, v) => sum + v, 0) / validValues.length
+          : 0;
+    } else {
+      total = safeValues.reduce((sum, val) => sum + val, 0);
+    }
+
+    return (
+      <tr
+        key={rowIdx}
+        className={
+          rowIdx % 2 === 0 ? "bg-blue-50 hover:bg-blue-100" : "bg-white"
+        }
+      >
+        <td className="px-4 py-2 font-semibold text-gray-800 border border-gray-300">
+          {rowLabels[key] || key}
+        </td>
+        {safeValues.map((val, i) => (
+          <td
+            key={i}
+            className="px-4 py-2 font-bold text-gray-700 border border-gray-300"
+          >
+            {val.toFixed(2)}
+          </td>
+        ))}
+        <td className="px-4 py-2 font-bold text-blue-700 border border-gray-300">
+          {total.toFixed(2)}
+        </td>
+      </tr>
+    );
+  })}
+</tbody>
+
+
             </table>
           </div>
         </div>

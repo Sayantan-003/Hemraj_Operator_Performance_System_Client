@@ -2259,7 +2259,7 @@ const SolventReport = () => {
                   electricConsumed: [0],
                   CrudeOilProduction: [0],
                   DORBProduction: [0],
-                  expectedDORBProduction: [0], // NEW
+                  expectedDORBProduction: [0],
                   avgWeightDORBBags: [0],
                   totalWorkingHours: [0],
                   daysPresent: [0],
@@ -2347,8 +2347,8 @@ const SolventReport = () => {
     electricConsumed: "Electric Consumed (Unit)",
     CrudeOilProduction: "Crude Oil Production (MT)",
     DORBProduction: "DORB Production (Bags)",
-    expectedDORBProduction: "Expected DORB Production (KG)", 
-    avgWeightDORBBags: "Avg. Weight of DORB Bags (KG)", 
+    expectedDORBProduction: "Expected DORB Production (Ton)",
+    avgWeightDORBBags: "Avg. Weight of DORB Bags (KG)",
     totalWorkingHours: "Total Working Hours",
     daysPresent: "No. of Days Present",
   };
@@ -2693,10 +2693,39 @@ const SolventReport = () => {
               <tbody>
                 {Object.entries(detailedReport.rows).map(
                   ([key, values], rowIdx) => {
-                    const safeValues = detailedReport.operators.map(
-                      (_, i) => values[i] ?? 0
-                    );
-                    const total = safeValues.reduce((sum, val) => sum + val, 0);
+                    // Convert undefined/nulls to 0 for safety
+                    const safeValues = detailedReport.operators.map((_, i) => {
+                      let val = values[i] ?? 0;
+
+                      // Convert Expected DORB Production from KG → Ton
+                      if (key === "expectedDORBProduction") val = val / 1000;
+
+                      return val;
+                    });
+
+                    // Calculate average instead of total for specific keys
+                    let total;
+                    if (
+                      [
+                        "CrudeOilColor",
+                        "CrudeOilMoisture",
+                        "DORBOilPercent",
+                        "avgWeightDORBBags",
+                        "totalWorkingHours",
+                        "daysPresent",
+                        "expectedDORBProduction",
+                      ].includes(key)
+                    ) {
+                      const validValues = safeValues.filter((v) => !isNaN(v));
+                      total =
+                        validValues.length > 0
+                          ? validValues.reduce((sum, v) => sum + v, 0) /
+                            validValues.length
+                          : 0;
+                    } else {
+                      // Normal sum for all other parameters
+                      total = safeValues.reduce((sum, val) => sum + val, 0);
+                    }
 
                     return (
                       <tr
